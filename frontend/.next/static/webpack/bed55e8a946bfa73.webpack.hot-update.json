@@ -1,1 +1,0 @@
-{"c":["pages/dashboard/few-dot-plot","webpack"],"r":["pages/dashboard"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fdashboard&absolutePagePath=%2Fusr%2Fsrc%2Fapp%2Fsrc%2Fpages%2Fdashboard%2Findex.js!","./src/components/dashboard/dashboard-choices.js","./src/pages/dashboard/index.js","./src/__mocks__/vacancy-plot-data.js"]}
