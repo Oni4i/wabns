@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./backend:/var/www
+    container_name: "wabsn-nginx"
+    restart: always
+    ports:
+      - "8081:80"
+    networks:
+      - backend_n
+
+  backend:
+    container_name: "wabsn-php"
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/var/www
+    ports:
+      - "5000:8000"
+    networks:
+      - backend_n
+
+  frontend:
+    container_name: "wabsn-node"
+    restart: always
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+
+  db:
+    image: mysql:8.0.19
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=api
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - backend_n
+
+networks:
+  backend_n:
