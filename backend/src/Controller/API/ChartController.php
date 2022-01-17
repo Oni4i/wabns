@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ChartController extends AbsractAPIController
 {
     /**
-     * @Route("/vacancy-plot")
+     * @Route("/vacancy-plot/{trackId}", requirements={"trackId"="\d+"})
      */
     public function vacancyPlotData(): JsonResponse
     {
