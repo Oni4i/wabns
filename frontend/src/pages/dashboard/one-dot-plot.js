@@ -4,7 +4,7 @@ import {Box, Button, Container, TextField} from "@mui/material";
 import {tracks} from "../../__mocks__/tracks";
 import {useEffect, useMemo, useState} from "react";
 import {DotPlot} from "../../components/dashboard/dot-plot";
-import ChartService from "../../components/api/chart-service";
+import ChartService from "../../api/chart-service";
 import {addDataset, changeLabels, initialChart} from "../../utils/chart-service";
 import {vacancyPlotData as tests} from "../../__mocks__/vacancy-plot-data";
 import {DesktopDatePicker} from "@mui/lab";

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {tracks} from "../../__mocks__/tracks";
+import {tracks} from "../__mocks__/tracks";
 
 export default class TrackService {
     static async remove(id) {

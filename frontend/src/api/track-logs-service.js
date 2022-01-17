@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {tracksLogs} from "../../__mocks__/tracks-logs";
+import {tracksLogs} from "../__mocks__/tracks-logs";
 
 export default class TrackLogsService {
     static async getAllByTrackId(trackId) {

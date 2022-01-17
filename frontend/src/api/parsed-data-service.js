@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {parsedData} from "../../__mocks__/parsed-data";
+import {parsedData} from "../__mocks__/parsed-data";
 
 export default class ParsedDataService {
     static async getAllByLogId(trackLogId) {

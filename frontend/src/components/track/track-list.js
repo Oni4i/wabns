@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import {Button} from "@mui/material";
 import {indigo} from '@mui/material/colors';
 import {TrackDataGrid} from "./track-datagrid";
-import TrackService from "../api/track-service";
+import TrackService from "../../api/track-service";
 
 export const TrackList = ({tracks}) => {
 

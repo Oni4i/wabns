@@ -15,11 +15,11 @@ import {useEffect, useState} from "react";
 import {DotPlot} from "../../components/dashboard/dot-plot";
 import AddchartIcon from '@mui/icons-material/Addchart';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TrackService from "../../components/api/track-service";
+import TrackService from "../../api/track-service";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { indigo } from '@mui/material/colors';
 import {addDataset, changeLabels, initialChart, removeDataset} from "../../utils/chart-service";
-import ChartService from "../../components/api/chart-service";
+import ChartService from "../../api/chart-service";
 import {DesktopDatePicker} from "@mui/lab";
 
 const FewDotPlot = () => {

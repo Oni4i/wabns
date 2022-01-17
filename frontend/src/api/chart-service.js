@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {vacancyPlotData} from "../../__mocks__/vacancy-plot-data-2";
-import {salaryPlotData} from "../../__mocks__/salary-plot-data";
+import {vacancyPlotData} from "../__mocks__/vacancy-plot-data-2";
+import {salaryPlotData} from "../__mocks__/salary-plot-data";
 
 export default class ChartService {
     static async getVacancyPlotByTrackId(trackId, dates) {
