@@ -10,7 +10,7 @@ export default class ChartService {
         }
     }
 
-    static async getSalaryPlotByTrackId(trackId) {
+    static async getSalaryPlotByTrackId(trackId, dates) {
         return {
             status: 200,
             data: salaryPlotData.find(item => item.trackId === trackId)

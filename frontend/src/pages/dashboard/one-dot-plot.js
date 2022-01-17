@@ -7,6 +7,7 @@ import {DotPlot} from "../../components/dashboard/dot-plot";
 import ChartService from "../../components/api/chart-service";
 import {addDataset, changeLabels, initialChart} from "../../utils/chart-service";
 import {vacancyPlotData as tests} from "../../__mocks__/vacancy-plot-data";
+import {DesktopDatePicker} from "@mui/lab";
 
 
 const OneDotPlot = () => {
@@ -15,6 +16,16 @@ const OneDotPlot = () => {
     const [charts, setCharts] = useState({
         vacancyPlotData: initialChart(),
         salaryPlotData: initialChart()
+    })
+
+    const [dates, setDates] = useState({
+        from: (() => {
+            const date = new Date();
+            date.setDate(date.getDate() - 7);
+
+            return date;
+        })(),
+        to: new Date()
     })
 
     const onSelectChange = (e) => {
@@ -38,23 +49,31 @@ const OneDotPlot = () => {
                 [plotKey]: chart
             }
         })
+    }
 
+    const changeDate = (date, name) => {
+        setDates((prev) => {
+            return {
+                ...prev,
+                [name]: date
+            }
+        })
     }
 
     useEffect(() => {
         const fetchData = async () => {
             await createDotPlot(
-                await ChartService.getVacancyPlotByTrackId(trackId),
+                await ChartService.getVacancyPlotByTrackId(trackId, dates),
                 'vacancyPlotData'
             );
             await createDotPlot(
-                await ChartService.getSalaryPlotByTrackId(trackId),
+                await ChartService.getSalaryPlotByTrackId(trackId, dates),
                 'salaryPlotData'
             );
         }
 
         fetchData();
-    }, [trackId]);
+    }, [trackId, dates]);
 
     return (
         <>
@@ -90,6 +109,20 @@ const OneDotPlot = () => {
                         ))}
                     </TextField>
                     <Box sx={{mt: 5}}>
+                        <DesktopDatePicker
+                            label="От"
+                            inputFormat="yyyy-MM-dd"
+                            onChange={(e) => changeDate(e, 'from')}
+                            value={dates.from}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                        <DesktopDatePicker
+                            label="До"
+                            inputFormat="yyyy-MM-dd"
+                            onChange={(e) => changeDate(e, 'to')}
+                            value={dates.to}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
                         <DotPlot {...charts.vacancyPlotData} title="График количества вакансий"/>
                         <DotPlot {...charts.salaryPlotData} title="График зарплаты"/>
                     </Box>
