@@ -45,6 +45,11 @@ class WorkService
      */
     private Collection $tracks;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $service;
+
     public function __construct()
     {
         $this->tracks = new ArrayCollection();
@@ -138,6 +143,18 @@ class WorkService
                 $track->setWorkService(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getService(): ?string
+    {
+        return $this->service;
+    }
+
+    public function setService(string $service): self
+    {
+        $this->service = $service;
 
         return $this;
     }
