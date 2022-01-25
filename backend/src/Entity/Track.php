@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TrackRepository::class)
- * @ORM\Entity
  * @ORM\Table(name="track")
  */
 class Track
@@ -51,12 +50,17 @@ class Track
     private \DateTimeInterface $nextStart;
 
     /**
+     * @ORM\Column(type="date", name="last_start")
+     */
+    private \DateTimeInterface $lastStart;
+
+    /**
      * @ORM\ManyToOne(targetEntity=WorkService::class)
      * @ORM\JoinColumn(name="work_service_id", referencedColumnName="id")
      */
     private WorkService $workService;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -66,7 +70,7 @@ class Track
         return $this->delayUnit;
     }
 
-    public function setDelayUnit(int $delayUnit): Track
+    public function setDelayUnit(int $delayUnit): self
     {
         $this->delayUnit = $delayUnit;
 
@@ -78,7 +82,7 @@ class Track
         return $this->delayCount;
     }
 
-    public function setDelayCount(int $delayCount): Track
+    public function setDelayCount(int $delayCount): self
     {
         $this->delayCount = $delayCount;
 
@@ -90,7 +94,7 @@ class Track
         return $this->query;
     }
 
-    public function setQuery(string $query): Track
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
@@ -102,7 +106,7 @@ class Track
         return $this->isActive;
     }
 
-    public function setIsActive(bool $isActive): Track
+    public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
 
@@ -114,7 +118,7 @@ class Track
         return $this->filters;
     }
 
-    public function setFilters(array $filters): Track
+    public function setFilters(array $filters): self
     {
         $this->filters = $filters;
 
@@ -126,7 +130,7 @@ class Track
         return $this->nextStart;
     }
 
-    public function setNextStart(\DateTimeInterface $nextStart): Track
+    public function setNextStart(\DateTimeInterface $nextStart): self
     {
         $this->nextStart = $nextStart;
 
@@ -138,9 +142,21 @@ class Track
         return $this->workService;
     }
 
-    public function setWorkService(WorkService $workService): Track
+    public function setWorkService(WorkService $workService): self
     {
         $this->workService = $workService;
+
+        return $this;
+    }
+
+    public function getLastStart(): \DateTimeInterface
+    {
+        return $this->lastStart;
+    }
+
+    public function setLastStart(\DateTimeInterface $lastStart): self
+    {
+        $this->lastStart = $lastStart;
 
         return $this;
     }

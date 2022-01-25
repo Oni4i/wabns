@@ -50,7 +50,7 @@ class WorkService
         $this->tracks = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -67,7 +67,7 @@ class WorkService
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -114,8 +114,31 @@ class WorkService
     /**
      * @param Collection|Track[] $tracks
      */
-    public function setTracks(Collection $tracks): void
+    public function setTracks(Collection $tracks): self
     {
         $this->tracks = $tracks;
+
+        return $this;
+    }
+
+    public function addTrack(Track $track): self
+    {
+        if (!$this->tracks->contains($track)) {
+            $this->tracks->add($track);
+            $track->setWorkService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrack(Track $track): self
+    {
+        if ($this->tracks->removeElement($track)) {
+            if ($track->getWorkService() === $this) {
+                $track->setWorkService(null);
+            }
+        }
+
+        return $this;
     }
 }
