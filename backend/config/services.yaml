@@ -25,6 +25,7 @@ services:
         App\Controller\API\AbsractAPIController:
             calls:
                 - setAPIResponseService: [ '@App\Contract\Response\APIResponseServiceInterface' ]
+                - setSerializerService: [ '@Symfony\Component\Serializer\SerializerInterface' ]
 
     App\Contract\Response\APIResponseServiceInterface: '@App\Service\APIResponseService'
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\TrackRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrackRepository::class)
@@ -20,7 +21,9 @@ class Track
     private int $id;
 
     /**
-     * @ORM\Column(type="decimal", precision=1, scale=0, name="delay_unit")
+     * @ORM\Column(type="decimal", precision=1, scale=0, name="delay_unit", nullable=false)
+     *
+     * @Assert\NotNull()
      */
     private int $delayUnit;
 
@@ -31,6 +34,8 @@ class Track
 
     /**
      * @ORM\Column(type="string", length=255, name="query")
+     *
+     * @Assert\NotNull()
      */
     private string $query;
 

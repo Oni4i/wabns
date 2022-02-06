@@ -36,4 +36,14 @@ class APIResponseService implements APIResponseServiceInterface
             'message' => $message,
         ]);
     }
+
+    public function createErrorResponseWithFields(string $message, array $fields)
+    {
+        return new JsonResponse([
+            "error" => true,
+            'code' => 501,
+            'data' => $fields,
+            'message' => $message,
+        ]);
+    }
 }

@@ -9,5 +9,6 @@ interface APIResponseServiceInterface extends ResponseServiceInterface
 {
     public function createSuccessResponse($data): JsonResponse;
     public function createErrorResponse(string $message): JsonResponse;
+    public function createErrorResponseWithFields(string $message, array $fields);
     public function createNotFoundResponse(string $message): JsonResponse;
 }
