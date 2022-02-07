@@ -25,7 +25,6 @@ services:
         App\Controller\API\AbsractAPIController:
             calls:
                 - setAPIResponseService: [ '@App\Contract\Response\APIResponseServiceInterface' ]
-                - setSerializerService: [ '@Symfony\Component\Serializer\SerializerInterface' ]
 
         App\Contract\Validation\ValidationServiceInterface:
             tags: ['app.validation_service']

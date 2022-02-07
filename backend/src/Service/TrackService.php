@@ -31,4 +31,10 @@ class TrackService
         $this->entityManager->persist($track);
         $this->entityManager->flush();
     }
+
+    public function remove(Track $track): void
+    {
+        $this->entityManager->remove($track);
+        $this->entityManager->flush();
+    }
 }

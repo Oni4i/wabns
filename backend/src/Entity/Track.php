@@ -47,7 +47,6 @@ class Track implements EntityInterface
      * @ORM\Column(type="boolean", name="is_active", nullable=false)
      *
      * @Assert\Type(type="boolean")
-     * @Assert\NotBlank(allowNull=false)
      */
     private ?bool $isActive;
 

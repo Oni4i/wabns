@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\API;
 
 use App\DTO\Request\TrackRequestDTO;
+use App\Entity\Track;
 use App\Form\TrackFormType;
 use App\Service\API\TrackRequestService;
 use App\Service\TrackService;
@@ -46,9 +47,52 @@ class TrackController extends AbsractAPIController
             $track = $this->requestService->getEntityFromDTO($form->getData());
             $this->trackService->save($track);
 
-            return $this->createSuccessResponse(null);
+            return $this->createSuccessResponse('Отслеживание создано успешно');
         }
 
-        return $this->createErrorResponseWithFields('gg', $this->getFormErrors($form));
+        return $this->createErrorResponseWithFields(
+            'При создании отслеживания произошла ошибка',
+            $this->getFormErrors($form)
+        );
+    }
+
+    /**
+     * @Route("/remove/{id}")
+     */
+    public function remove(?Track $track): JsonResponse
+    {
+        if (!$track) {
+            return $this->createNotFoundErrorResponse('Отслеживание не существует');
+        }
+
+        $this->trackService->remove($track);
+
+        return $this->createSuccessResponse('Отслеживание удалено успешно');
+    }
+
+    /**
+     * @Route("/edit/{id}")
+     */
+    public function edit(Request $request, ?Track $track): JsonResponse
+    {
+        if (!$track) {
+            return $this->createNotFoundErrorResponse('Отслеживание не существует');
+        }
+
+        $form = $this->createForm(TrackFormType::class, $this->requestService->getDTOFromEntity($track));
+
+        $form->submit($request->query->all());
+
+        if ($form->isValid()) {
+            $track = $this->requestService->getEntityFromDTO($form->getData());
+            $this->trackService->save($track);
+
+            return $this->createSuccessResponse('Отслеживание обновлено успешно');
+        }
+
+        return $this->createErrorResponseWithFields(
+            'При обновлении отслеживания произошла ошибка',
+            $this->getFormErrors($form)
+        );
     }
 }

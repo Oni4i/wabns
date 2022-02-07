@@ -102,4 +102,11 @@ class TrackRequestDTO implements DTOEntityInterface
     {
         return $this->entity;
     }
+
+    public function setEntity(Track $entity): TrackRequestDTO
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
 }

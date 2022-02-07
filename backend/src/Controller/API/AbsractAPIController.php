@@ -7,22 +7,15 @@ use App\Contract\Response\APIResponseServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class AbsractAPIController extends AbstractController
 {
-    protected SerializerInterface $serializerService;
 
     private APIResponseServiceInterface $responseService;
 
     public function setAPIResponseService(APIResponseServiceInterface $responseService): void
     {
         $this->responseService = $responseService;
-    }
-
-    public function setSerializerService(SerializerInterface $serializerService): void
-    {
-        $this->serializerService = $serializerService;
     }
 
     protected function createSuccessResponse($data): JsonResponse
@@ -38,6 +31,11 @@ class AbsractAPIController extends AbstractController
     protected function createErrorResponseWithFields(string $message, array $fields): JsonResponse
     {
         return $this->responseService->createErrorResponseWithFields($message, $fields);
+    }
+
+    protected function createNotFoundErrorResponse(string $message): JsonResponse
+    {
+        return $this->responseService->createNotFoundResponse($message);
     }
 
     protected function getFormErrors(FormInterface $form): array
