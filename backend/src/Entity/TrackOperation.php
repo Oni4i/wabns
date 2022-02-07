@@ -3,15 +3,16 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
-use App\Repository\TrackLogRepository;
+use App\Repository\TrackOperationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TrackLogRepository::class)
+ * @ORM\Entity(repositoryClass=TrackOperation::class)
+ * @ORM\Table(name="track_operation")
  */
-class TrackLog
+class TrackOperation
 {
     /**
      * @ORM\Id
@@ -26,7 +27,7 @@ class TrackLog
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=Vacancy::class, mappedBy="trackLog")
+     * @ORM\OneToMany(targetEntity=Vacancy::class, mappedBy="trackOperation")
      */
     private $vacancies;
 
@@ -58,27 +59,5 @@ class TrackLog
     public function getVacancies(): Collection
     {
         return $this->vacancies;
-    }
-
-    public function addVacancy(Vacancy $vacancy): self
-    {
-        if (!$this->vacancies->contains($vacancy)) {
-            $this->vacancies[] = $vacancy;
-            $vacancy->setTrackLog($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVacancy(Vacancy $vacancy): self
-    {
-        if ($this->vacancies->removeElement($vacancy)) {
-            // set the owning side to null (unless already changed)
-            if ($vacancy->getTrackLog() === $this) {
-                $vacancy->setTrackLog(null);
-            }
-        }
-
-        return $this;
     }
 }

@@ -27,6 +27,14 @@ services:
                 - setAPIResponseService: [ '@App\Contract\Response\APIResponseServiceInterface' ]
                 - setSerializerService: [ '@Symfony\Component\Serializer\SerializerInterface' ]
 
+        App\Contract\Validation\ValidationServiceInterface:
+            tags: ['app.validation_service']
+
+
+    App\Validation\DTOValidationWithEntityValidator:
+        arguments:
+            $services: !tagged_locator {tag: 'app.validation_service', default_index_method: 'getDTOClass'}
+
     App\Contract\Response\APIResponseServiceInterface: '@App\Service\APIResponseService'
 
     # add more service definitions when explicit configuration is needed

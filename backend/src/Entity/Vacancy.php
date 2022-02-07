@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=VacancyRepository::class)
+ * @ORM\Table(name="vacancy")
  */
 class Vacancy
 {
@@ -34,10 +35,10 @@ class Vacancy
     private ?int $salary = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TrackLog::class, inversedBy="vacancies")
+     * @ORM\ManyToOne(targetEntity=TrackOperation::class, inversedBy="vacancies")
      * @ORM\JoinColumn(nullable=false)
      */
-    private TrackLog $trackLog;
+    private TrackOperation $trackOperation;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -85,14 +86,14 @@ class Vacancy
         return $this;
     }
 
-    public function getTrackLog(): ?TrackLog
+    public function getTrackOperation(): TrackOperation
     {
-        return $this->trackLog;
+        return $this->trackOperation;
     }
 
-    public function setTrackLog(?TrackLog $trackLog): self
+    public function setTrackOperation(TrackOperation $trackOperation): Vacancy
     {
-        $this->trackLog = $trackLog;
+        $this->trackOperation = $trackOperation;
 
         return $this;
     }

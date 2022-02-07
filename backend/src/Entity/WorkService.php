@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=WorkServiceRepository::class)
+ * @ORM\Table(name="work_service")
  */
 class WorkService
 {

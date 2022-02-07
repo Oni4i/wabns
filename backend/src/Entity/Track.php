@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
+use App\Contract\Entity\EntityInterface;
 use App\Repository\TrackRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=TrackRepository::class)
  * @ORM\Table(name="track")
  */
-class Track
+class Track implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -25,29 +26,34 @@ class Track
      *
      * @Assert\NotNull()
      */
-    private int $delayUnit;
+    private ?int $delayUnit;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=0, name="delay_count")
+     * @ORM\Column(type="decimal", precision=10, scale=0, name="delay_count", nullable=false)
+     *
+     * @Assert\NotNull()
      */
-    private int $delayCount = 1;
+    private ?int $delayCount;
 
     /**
      * @ORM\Column(type="string", length=255, name="query")
      *
      * @Assert\NotNull()
      */
-    private string $query;
+    private ?string $query;
 
     /**
-     * @ORM\Column(type="boolean", name="is_active")
+     * @ORM\Column(type="boolean", name="is_active", nullable=false)
+     *
+     * @Assert\Type(type="boolean")
+     * @Assert\NotBlank(allowNull=false)
      */
-    private bool $isActive;
+    private ?bool $isActive;
 
     /**
      * @ORM\Column(type="json", nullable=true, name="filters")
      */
-    private array $filters = [];
+    private ?array $filters = [];
 
     /**
      * @ORM\Column(type="date", name="next_start")
@@ -62,68 +68,70 @@ class Track
     /**
      * @ORM\ManyToOne(targetEntity=WorkService::class)
      * @ORM\JoinColumn(name="work_service_id", referencedColumnName="id")
+     *
+     * @Assert\NotNull()
      */
-    private WorkService $workService;
+    private ?WorkService $workService;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getDelayUnit(): int
+    public function getDelayUnit(): ?int
     {
         return $this->delayUnit;
     }
 
-    public function setDelayUnit(int $delayUnit): self
+    public function setDelayUnit(?int $delayUnit): Track
     {
         $this->delayUnit = $delayUnit;
 
         return $this;
     }
 
-    public function getDelayCount(): int
+    public function getDelayCount(): ?int
     {
         return $this->delayCount;
     }
 
-    public function setDelayCount(int $delayCount): self
+    public function setDelayCount(?int $delayCount): Track
     {
         $this->delayCount = $delayCount;
 
         return $this;
     }
 
-    public function getQuery(): string
+    public function getQuery(): ?string
     {
         return $this->query;
     }
 
-    public function setQuery(string $query): self
+    public function setQuery(?string $query): Track
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function isActive(): bool
+    public function getIsActive(): ?bool
     {
         return $this->isActive;
     }
 
-    public function setIsActive(bool $isActive): self
+    public function setIsActive(?bool $isActive): Track
     {
         $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function getFilters(): array
+    public function getFilters(): ?array
     {
         return $this->filters;
     }
 
-    public function setFilters(array $filters): self
+    public function setFilters(?array $filters): Track
     {
         $this->filters = $filters;
 
@@ -135,19 +143,19 @@ class Track
         return $this->nextStart;
     }
 
-    public function setNextStart(\DateTimeInterface $nextStart): self
+    public function setNextStart(\DateTimeInterface $nextStart): Track
     {
         $this->nextStart = $nextStart;
 
         return $this;
     }
 
-    public function getWorkService(): WorkService
+    public function getWorkService(): ?WorkService
     {
         return $this->workService;
     }
 
-    public function setWorkService(WorkService $workService): self
+    public function setWorkService(?WorkService $workService): Track
     {
         $this->workService = $workService;
 

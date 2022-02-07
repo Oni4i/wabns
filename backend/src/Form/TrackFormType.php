@@ -3,31 +3,27 @@ declare(strict_types = 1);
 
 namespace App\Form;
 
-use App\Entity\Track;
+use App\Entity\WorkService;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 class TrackFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('delayUnit', NumberType::class, [
-                'required' => true,
-                'constraints' => [
-                    new NotNull()
-                ]
+            ->add('delayUnit', NumberType::class)
+            ->add('delayCount', NumberType::class)
+            ->add('query', TextType::class)
+            ->add('isActive', CheckboxType::class, [
+                'false_values' => ['false', null, 0],
+            ])
+            ->add('workService', EntityType::class, [
+                'class' => WorkService::class,
             ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Track::class,
-        ]);
     }
 }

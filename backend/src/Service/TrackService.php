@@ -5,13 +5,11 @@ namespace App\Service;
 
 use App\Entity\Track;
 use App\Repository\TrackRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TrackService
 {
     private TrackRepository        $trackRepository;
-
     private EntityManagerInterface $entityManager;
 
     public function __construct(
