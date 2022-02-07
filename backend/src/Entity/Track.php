@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=TrackRepository::class)
  * @ORM\Table(name="track")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Track implements EntityInterface
 {
@@ -56,14 +57,14 @@ class Track implements EntityInterface
     private ?array $filters = [];
 
     /**
-     * @ORM\Column(type="date", name="next_start")
+     * @ORM\Column(type="date", name="next_start", nullable=true)
      */
-    private \DateTimeInterface $nextStart;
+    private ?\DateTimeInterface $nextStart = null;
 
     /**
-     * @ORM\Column(type="date", name="last_start")
+     * @ORM\Column(type="date", name="last_start", nullable=true)
      */
-    private \DateTimeInterface $lastStart;
+    private ?\DateTimeInterface $lastStart = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=WorkService::class)
@@ -138,12 +139,12 @@ class Track implements EntityInterface
         return $this;
     }
 
-    public function getNextStart(): \DateTimeInterface
+    public function getNextStart(): ?\DateTimeInterface
     {
         return $this->nextStart;
     }
 
-    public function setNextStart(\DateTimeInterface $nextStart): Track
+    public function setNextStart(?\DateTimeInterface $nextStart): Track
     {
         $this->nextStart = $nextStart;
 
@@ -162,15 +163,33 @@ class Track implements EntityInterface
         return $this;
     }
 
-    public function getLastStart(): \DateTimeInterface
+    public function getLastStart(): ?\DateTimeInterface
     {
         return $this->lastStart;
     }
 
-    public function setLastStart(\DateTimeInterface $lastStart): self
+    public function setLastStart(?\DateTimeInterface $lastStart): self
     {
         $this->lastStart = $lastStart;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistNextStart(): void
+    {
+        $this->setNextStart(new \DateTimeImmutable('+1 day'));
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdateNextStart(): void
+    {
+        if ($this->getLastStart()) {
+            $this->nextStart = new \DateTimeImmutable(\sprintf('+%d %s', $this->getDelayCount(), 'day'));
+        }
     }
 }

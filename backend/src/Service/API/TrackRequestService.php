@@ -6,9 +6,18 @@ namespace App\Service\API;
 use App\Contract\DTO\DTOEntityInterface;
 use App\DTO\Request\TrackRequestDTO;
 use App\Entity\Track;
+use App\Service\TrackService;
+use Doctrine\ORM\EntityManagerInterface;
 
 class TrackRequestService extends AbstractAPIService
 {
+    private TrackService $trackService;
+
+    public function __construct(TrackService $trackService)
+    {
+        $this->trackService = $trackService;
+    }
+
     /**
      * @param TrackRequestDTO $DTO
      */
@@ -26,6 +35,7 @@ class TrackRequestService extends AbstractAPIService
 
         return $entity;
     }
+
 
     public static function getDTOClass(): string
     {
