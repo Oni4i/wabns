@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
+use App\Contract\Entity\EntityInterface;
 use App\Repository\VacancyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=VacancyRepository::class)
  * @ORM\Table(name="vacancy")
  */
-class Vacancy
+class Vacancy implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -45,7 +46,7 @@ class Vacancy
      */
     private string $company;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

@@ -3,33 +3,34 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
+use App\Contract\Entity\EntityInterface;
 use App\Repository\TrackOperationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TrackOperation::class)
+ * @ORM\Entity(repositoryClass=TrackOperationRepository::class)
  * @ORM\Table(name="track_operation")
  */
-class TrackOperation
+class TrackOperation implements EntityInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", name="created_at")
      */
-    private $created_at;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Vacancy::class, mappedBy="trackOperation")
      */
-    private $vacancies;
+    private Collection $vacancies;
 
     public function __construct()
     {
@@ -41,14 +42,14 @@ class TrackOperation
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
