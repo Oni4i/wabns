@@ -14,7 +14,7 @@ export const TrackDataGrid = ({rows, onRemoveOne}) => {
 
         await onRemoveOne(id);
 
-        // setLoadingButtons((ids) => ids.filter((value) => value !== id))
+        setLoadingButtons((ids) => ids.filter((value) => value !== id))
     }
 
     return (
@@ -53,7 +53,7 @@ export const TrackDataGrid = ({rows, onRemoveOne}) => {
                             align: 'center'
                         },
                         {
-                            field: 'is_active',
+                            field: 'isActive',
                             type: 'boolean',
                             headerName: 'Активен',
                             description: 'This column has a value getter and is not sortable.',
@@ -61,20 +61,20 @@ export const TrackDataGrid = ({rows, onRemoveOne}) => {
                             align: 'center'
                         },
                         {
-                            field: 'last_start',
+                            field: 'lastStart',
                             headerName: 'Последний запуск',
                             type: 'dateTime',
                             width: 200,
                             align: 'center',
-                            valueGetter: ({ value }) => value && new Date(value),
+                            valueGetter: ({ value }) => value && value.date && new Date(value.date),
                         },
                         {
-                            field: 'next_start',
+                            field: 'nextStart',
                             headerName: 'Следующий запуск',
                             type: 'dateTime',
                             width: 200,
                             align: 'center',
-                            valueGetter: ({ value }) => value && new Date(value),
+                            valueGetter: ({ value }) => value && value.date && new Date(value.date),
                         },
                         {
                             field: 'actions',

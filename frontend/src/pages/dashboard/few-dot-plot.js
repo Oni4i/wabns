@@ -42,7 +42,7 @@ const FewDotPlot = () => {
     const updateTracks = async () => {
         const response = await TrackService.getAll();
 
-        if (response.status === 200) {
+        if (response.code === 200) {
             setTracks(response.data);
             setSelectedTrack(response.data.length ? response.data[0].id : -1)
         }

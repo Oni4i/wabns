@@ -35,7 +35,7 @@ class TrackController extends AbsractAPIController
     }
 
     /**
-     * @Route("/add")
+     * @Route("/add", methods={"POST"})
      */
     public function add(Request $request): JsonResponse
     {
@@ -57,7 +57,7 @@ class TrackController extends AbsractAPIController
     }
 
     /**
-     * @Route("/remove/{id}")
+     * @Route("/remove/{id}", methods={"DELETE", "OPTIONS"})
      */
     public function remove(?Track $track): JsonResponse
     {
@@ -71,7 +71,7 @@ class TrackController extends AbsractAPIController
     }
 
     /**
-     * @Route("/edit/{id}")
+     * @Route("/edit/{id}", methods={"POST"})
      */
     public function edit(Request $request, ?Track $track): JsonResponse
     {

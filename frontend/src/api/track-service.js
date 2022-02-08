@@ -1,19 +1,15 @@
 import axios from 'axios';
-import {tracks} from "../__mocks__/tracks";
 
 export default class TrackService {
     static async remove(id) {
-        // const response = await axios.delete()
+        const response = await axios.delete('http://localhost:8081/api/track/remove/' + id);
 
-        const response = {status: 200};
-
-        return response;
+        return response.data;
     }
 
     static async getAll() {
-        return {
-            status: 200,
-            data: tracks
-        };
+        const response = await axios.get('http://localhost:8081/api/track');
+
+        return response.data;
     }
 }

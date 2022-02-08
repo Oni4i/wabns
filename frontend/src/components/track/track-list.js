@@ -2,14 +2,8 @@ import NextLink from 'next/link';
 import {Button} from "@mui/material";
 import {indigo} from '@mui/material/colors';
 import {TrackDataGrid} from "./track-datagrid";
-import TrackService from "../../api/track-service";
 
-export const TrackList = ({tracks}) => {
-
-    const handleRemoveOne = async (id) => {
-        return TrackService.remove(id);
-    }
-
+export const TrackList = ({tracks, onRemoveOne}) => {
     return (
         <>
             <NextLink href='/track/add' >
@@ -25,7 +19,7 @@ export const TrackList = ({tracks}) => {
             </NextLink>
             <TrackDataGrid
                 rows={tracks}
-                onRemoveOne={handleRemoveOne}
+                onRemoveOne={onRemoveOne}
             />
         </>
     )

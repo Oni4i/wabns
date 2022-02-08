@@ -1,11 +1,37 @@
 import Head from 'next/head';
 import { Box, Container, Typography } from '@mui/material';
 import {DashboardLayout} from "../../components/dashboard-layout";
-import { tracks } from "../../__mocks__/tracks";
 import {TrackList} from "../../components/track/track-list";
+import {useEffect, useState} from "react";
+import TrackService from "../../api/track-service";
 
 
 const TrackIndex = () => {
+
+    const [tracks, setTracks] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await TrackService.getAll();
+
+            if (response.code === 200) {
+                setTracks(response.data)
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    const handleRemoveOne = async (id) => {
+        const response = await TrackService.remove(id);
+
+        if (response.code === 200) {
+            setTracks(tracks => {
+                return tracks.filter(track => track.id !== id)
+            })
+        }
+    }
+
     return (
         <>
             <Head>
@@ -28,7 +54,10 @@ const TrackIndex = () => {
                         Отслеживание
                     </Typography>
                     <Box sx={{ pt: 3 }}>
-                        <TrackList tracks={tracks} />
+                        <TrackList
+                            tracks={tracks}
+                            onRemoveOne={handleRemoveOne}
+                        />
                     </Box>
                 </Container>
             </Box>
