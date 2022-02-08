@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
+use App\Contract\Entity\EntityInterface;
 use App\Repository\WorkServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=WorkServiceRepository::class)
  * @ORM\Table(name="work_service")
  */
-class WorkService
+class WorkService implements EntityInterface
 {
     /**
      * @ORM\Id

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Service;
+namespace App\Service\Entity;
 
 use App\Entity\Track;
 use App\Repository\TrackRepository;

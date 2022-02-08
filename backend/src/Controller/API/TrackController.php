@@ -8,7 +8,7 @@ use App\Entity\Track;
 use App\Form\TrackFormType;
 use App\Service\API\TrackRequestService;
 use App\Service\API\TrackResponseService;
-use App\Service\TrackService;
+use App\Service\Entity\TrackService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

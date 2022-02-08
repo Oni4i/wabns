@@ -10,7 +10,7 @@ use App\Contract\Entity\EntityInterface;
 use App\Contract\Validation\ValidationServiceInterface;
 use App\DTO\Request\TrackRequestDTO;
 use App\Entity\Track;
-use App\Service\TrackService;
+use App\Service\Entity\TrackService;
 
 class TrackRequestService implements
     EntityFromDTOGetterInterface,
