@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/api/chart")
  */
-class ChartController extends AbsractAPIController
+class ChartController extends AbstractAPIController
 {
     /**
      * @Route("/vacancy-plot/{trackId}", requirements={"trackId"="\d+"})

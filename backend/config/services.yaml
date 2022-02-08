@@ -22,7 +22,7 @@ services:
             - '../src/Tests/'
 
     _instanceof:
-        App\Controller\API\AbsractAPIController:
+        App\Controller\API\AbstractAPIController:
             calls:
                 - setAPIResponseService: [ '@App\Contract\Response\APIResponseServiceInterface' ]
 

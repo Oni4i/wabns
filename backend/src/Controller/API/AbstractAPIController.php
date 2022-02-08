@@ -8,9 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AbsractAPIController extends AbstractController
+class AbstractAPIController extends AbstractController
 {
-
     private APIResponseServiceInterface $responseService;
 
     public function setAPIResponseService(APIResponseServiceInterface $responseService): void

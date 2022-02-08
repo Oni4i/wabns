@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/api/track")
  */
-class TrackController extends AbsractAPIController
+class TrackController extends AbstractAPIController
 {
     private TrackService         $trackService;
     private TrackRequestService  $requestService;
