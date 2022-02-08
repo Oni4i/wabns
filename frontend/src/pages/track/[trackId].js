@@ -6,22 +6,46 @@ import {
 } from '@mui/material';
 import {DashboardLayout} from "../../components/dashboard-layout";
 import {useRouter} from "next/router";
-import {tracks} from "../../__mocks__/tracks";
 import {useEffect, useState} from "react";
 import {TrackItem} from "../../components/track/track-item";
+import TrackService from "../../api/track-service";
 
 const TrackRead = () => {
 
     const [content, setContent] = useState(<CircularProgress />);
+    const [track, setTrack] = useState(null);
 
     const router = useRouter();
     const {trackId} = router.query;
 
-    const track = tracks.find((item) => item.id === Number(trackId));
+    const handleRemoveOne = async (id) => {
+        const response = await TrackService.remove(id);
+
+        if (response.code === 200) {
+            router.push('/track')
+        }
+    }
+
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            const response = await TrackService.show(Number(trackId));
+
+            if (response.code === 200) {
+                setTrack(response.data);
+            }
+        }
+
+        fetchData();
+    }, [trackId])
 
     useEffect(() => {
         if (track) {
-            setContent(<TrackItem track={track} /> )
+            setContent(<TrackItem
+                track={track}
+                onRemoveOne={handleRemoveOne}
+            /> )
         }
     }, [track])
 

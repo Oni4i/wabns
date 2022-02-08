@@ -73,6 +73,16 @@ class Track implements EntityInterface
      */
     private ?WorkService $workService;
 
+    /**
+     * @ORM\Column(name="created_at", type="date", nullable=false)
+     */
+    private \DateTimeInterface $createdAt;
+
+    /**
+     * @ORM\Column(name="updated_at", type="date", nullable=false)
+     */
+    private \DateTimeInterface $updatedAt;
+
     public function getId(): int
     {
         return $this->id;
@@ -174,6 +184,30 @@ class Track implements EntityInterface
         return $this;
     }
 
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): Track
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): Track
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      */
@@ -190,5 +224,22 @@ class Track implements EntityInterface
         if ($this->getLastStart()) {
             $this->nextStart = new \DateTimeImmutable(\sprintf('+%d %s', $this->getDelayCount(), 'day'));
         }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistCreatedAt(): void
+    {
+        $this->setCreatedAt(new \DateTimeImmutable());
+        $this->setUpdatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdateUpdatedAt(): void
+    {
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }

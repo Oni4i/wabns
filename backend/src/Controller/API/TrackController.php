@@ -7,6 +7,7 @@ use App\DTO\Request\TrackRequestDTO;
 use App\Entity\Track;
 use App\Form\TrackFormType;
 use App\Service\API\TrackRequestService;
+use App\Service\API\TrackResponseService;
 use App\Service\TrackService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,21 +18,47 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TrackController extends AbsractAPIController
 {
-    private TrackService        $trackService;
-    private TrackRequestService $requestService;
+    private TrackService         $trackService;
+    private TrackRequestService  $requestService;
+    private TrackResponseService $responseService;
 
-    public function __construct(TrackService $trackService, TrackRequestService $requestService)
+    public function __construct(
+        TrackService $trackService,
+        TrackRequestService $requestService,
+        TrackResponseService $responseService
+    )
     {
         $this->trackService = $trackService;
         $this->requestService = $requestService;
+        $this->responseService = $responseService;
     }
 
     /**
-     * @Route("/")
+     * @Route("/", methods={"GET"})
      */
     public function index(): JsonResponse
     {
-        return $this->createSuccessResponse($this->trackService->findAll());
+        $tracks = $this->trackService->findAll();
+
+        $DTOs = [];
+
+        foreach ($tracks as $track) {
+            $DTOs[] = $this->responseService->getDTOFromEntity($track);
+        }
+
+        return $this->createSuccessResponse($DTOs);
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"})
+     */
+    public function show(?Track $track): JsonResponse
+    {
+        if (!$track) {
+            return $this->createNotFoundErrorResponse('Отслеживание не существует');
+        }
+
+        return $this->createSuccessResponse($this->responseService->getDTOFromEntity($track));
     }
 
     /**

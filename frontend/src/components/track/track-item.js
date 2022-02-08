@@ -1,7 +1,8 @@
 import {Box, Button, Card, CardContent, Divider, Grid, Typography} from "@mui/material";
 import {indigo} from "@mui/material/colors";
+import {NotFound} from "../../icons/not-found";
 
-export const TrackItem = ({ track }) => {
+export const TrackItem = ({ track, onRemoveOne }) => {
     return (
         <>
             <Typography
@@ -32,14 +33,16 @@ export const TrackItem = ({ track }) => {
                                 >
                                     Сервис
                                 </Typography>
-                                <Box
-                                    component="img"
-                                    sx={{
-                                        height: 64,
-                                        mb: 2,
-                                    }}
-                                    src={track.logo}
-                                />
+                                { track.logo
+                                    ? <Box
+                                        component="img"
+                                        sx={{
+                                            height: 64,
+                                            mb: 2,
+                                        }}
+                                        src={track.logo}
+                                    />
+                                    : <NotFound fontSize="large" /> }
                                 <Typography
                                     sx={{
                                         textAlign: 'center',
@@ -47,7 +50,7 @@ export const TrackItem = ({ track }) => {
                                         fontWeight: 'bold'
                                     }}
                                 >
-                                    {track.service_title}
+                                    {track.workServiceTitle}
                                 </Typography>
                                 <Divider
                                     sx={{
@@ -61,6 +64,7 @@ export const TrackItem = ({ track }) => {
                                     sx={{
                                         mr: 1
                                     }}
+                                    onClick={() => onRemoveOne(track.id)}
                                 >
                                     Удалить
                                 </Button>
@@ -104,16 +108,16 @@ export const TrackItem = ({ track }) => {
                                         Запуск сбора данных
                                     </Typography>
                                     <Typography>
-                                        Единица измерения - {track.delay_unit}
+                                        Единица измерения - {track.delayUnit}
                                     </Typography>
                                     <Typography>
-                                        Частота запуска - {track.delay_count}
+                                        Частота запуска - {track.delayCount}
                                     </Typography>
                                     <Typography>
-                                        Последний запуск - {track.last_start}
+                                        Последний запуск - {track.lastStart?.date ? (new Date(track.lastStart.date)).toLocaleDateString() : 'X'}
                                     </Typography>
                                     <Typography>
-                                        Следующий запуск - {track.next_start}
+                                        Следующий запуск - {(new Date(track.nextStart.date)).toLocaleDateString()}
                                     </Typography>
                                     <Divider sx={{
                                         my: 2

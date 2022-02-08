@@ -6,6 +6,7 @@ services:
       context: ./docker/nginx
     volumes:
       - ./backend:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     container_name: "wabsn-nginx"
     restart: always
     ports:

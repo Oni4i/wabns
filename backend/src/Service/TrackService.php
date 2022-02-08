@@ -23,7 +23,7 @@ class TrackService
 
     public function findAll(): array
     {
-        return $this->trackRepository->createQueryBuilder('t')->getQuery()->getArrayResult();
+        return $this->trackRepository->createQueryBuilder('t')->getQuery()->getResult();
     }
 
     public function save(Track $track): void

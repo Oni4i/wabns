@@ -3,6 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import NextLink from "next/link";
 import {Button} from "@mui/material";
 import {useState} from "react";
+import {NotFound} from "../../icons/not-found";
 
 
 export const TrackDataGrid = ({rows, onRemoveOne}) => {
@@ -28,18 +29,20 @@ export const TrackDataGrid = ({rows, onRemoveOne}) => {
                             headerName: '',
                             type: 'image',
                             width: 80,
-                            renderCell: (params) => (
-                                <img
-                                    src={params.value}
-                                    style={{height: '40px'}}
-                                    alt="logo"
-                                />
+                            renderCell: ({value}) => (
+                                value
+                                    ? <img
+                                        src={value}
+                                        style={{height: '40px'}}
+                                        alt="logo"
+                                    />
+                                    : <NotFound fontSize="large" />
                             ),
                             align: 'center',
                             sortable: false
                         },
                         {
-                            field: 'service_title',
+                            field: 'workServiceTitle',
                             headerName: 'Сервис',
                             type: 'string',
                             width: 140,

@@ -12,4 +12,10 @@ export default class TrackService {
 
         return response.data;
     }
+
+    static async show(id) {
+        const response = await axios.get('http://localhost:8081/api/track/' + id);
+
+        return response.data;
+    }
 }
