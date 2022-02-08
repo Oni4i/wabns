@@ -29,10 +29,21 @@ services:
         App\Contract\Validation\ValidationServiceInterface:
             tags: ['app.validation_service']
 
+        App\Contract\WorkService\WorkQueryInterface:
+            tags: ['app.work_query']
+
+        App\Contract\WorkService\ResponseHandlerServiceInterface:
+            tags: [ 'app.work_response' ]
+
+        App\Service\WorkService\AbstractRequestWorkService:
+            calls:
+                - setQueryContainer: [!tagged_locator { tag: 'app.work_query', default_index_method: 'getAlias' }]
+                - setClient: [ '@Symfony\Contracts\HttpClient\HttpClientInterface' ]
+                - setResponseContainer: [!tagged_locator { tag: 'app.work_response', default_index_method: 'getAlias' }]
 
     App\Validation\DTOValidationWithEntityValidator:
         arguments:
-            $services: !tagged_locator {tag: 'app.validation_service', default_index_method: 'getDTOClass'}
+            $services: !tagged_locator { tag: 'app.validation_service', default_index_method: 'getDTOClass' }
 
     App\Contract\Response\APIResponseServiceInterface: '@App\Service\APIResponseService'
 

@@ -3,8 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Controller\API;
 
+use App\Repository\TrackRepository;
 use App\Service\API\WorkResponseService;
 use App\Service\Entity\WorkSService;
+use App\Service\WorkService\HeadHunterRequestService;
+use App\Service\WorkService\RequestWorkService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,8 +31,9 @@ class WorkServiceController extends AbstractAPIController
     /**
      * @Route("/", methods={"GET"})
      */
-    public function index(): JsonResponse
+    public function index(HeadHunterRequestService $workService, TrackRepository $trackRepository): JsonResponse
     {
+        $workService->updateVacancies($trackRepository->findAll()[0]);
         $workServices = $this->workSService->findAll();
 
         $DTOs = [];
