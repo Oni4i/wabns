@@ -1,36 +1,51 @@
-import {Card, CardContent, Checkbox, FormControlLabel, Grid, TextField} from "@mui/material";
-import {useState} from "react";
-
-const services = [
-    {
-        value: 'hh',
-        label: 'HeadHunter'
-    },
-];
+import {Button, Card, CardContent, Checkbox, FormControlLabel, Grid, TextField} from "@mui/material";
+import {useEffect, useState} from "react";
+import {indigo} from "@mui/material/colors";
+import {useRouter} from "next/router";
 
 const units = [
     {
-        value: 'day',
+        value: '1',
         label: 'День'
     },
     {
-        value: 'week',
+        value: '2',
         label: 'Неделя'
     },
     {
-        value: 'month',
+        value: '3',
         label: 'Месяц'
     }
 ];
 
-export const TrackForm = (props) => {
+export const TrackForm = ({services, onSave, ...props}) => {
     const [values, setValues] = useState({
-        service: props.service ?? 'hh',
-        delay_unit: props.delay_unit ?? 'day',
-        delay_count: props.delay_count ?? 1,
+        workService: props.workService ?? -1,
+        delayUnit: props.delayUnit ?? 1,
+        delayCount: props.delayCount ?? 1,
         query: props.query ?? '',
-        is_active: props.is_active ?? false
+        isActive: props.isActive ?? false
     });
+
+    const [workServices, setWorkServices] = useState([]);
+
+    const router = useRouter();
+
+    const saveHandle = async () => {
+        const response = await onSave(values);
+
+        if (response.code === 200) {
+            router.push('/track')
+        }
+    }
+
+    useEffect(() => {
+        setWorkServices(services);
+        setValues({
+            ...values,
+            workService: services.length ? services[1].id : -1
+        })
+    }, [services])
 
     const handleChange = (event) => {
         setValues({
@@ -74,20 +89,20 @@ export const TrackForm = (props) => {
                             <TextField
                                 fullWidth
                                 label="Выберите сервис"
-                                name="service"
+                                name="workService"
                                 onChange={handleChange}
                                 required
                                 select
                                 SelectProps={{ native: true }}
-                                value={values.service}
+                                value={values.workService}
                                 variant="outlined"
                             >
-                                {services.map((option) => (
+                                {workServices.map((option) => (
                                     <option
-                                        key={option.value}
-                                        value={option.value}
+                                        key={option.id}
+                                        value={option.id}
                                     >
-                                        {option.label}
+                                        {option.title}
                                     </option>
                                 ))}
                             </TextField>
@@ -100,10 +115,10 @@ export const TrackForm = (props) => {
                             <TextField
                                 fullWidth
                                 label="Введите частоту запуска"
-                                name="delay_count"
+                                name="delayCount"
                                 onChange={handleChange}
                                 required
-                                value={values.delay_count}
+                                value={values.delayCount}
                                 variant="outlined"
                                 type="number"
                             />
@@ -116,12 +131,12 @@ export const TrackForm = (props) => {
                             <TextField
                                 fullWidth
                                 label="Выберите единицу измерения"
-                                name="delay_unit"
+                                name="delayUnit"
                                 onChange={handleChange}
                                 required
                                 select
                                 SelectProps={{ native: true }}
-                                value={values.delay_unit}
+                                value={values.delayUnit}
                                 variant="outlined"
                             >
                                 {units.map((option) => (
@@ -136,24 +151,38 @@ export const TrackForm = (props) => {
                         </Grid>
                         <Grid
                             item
-                            md={6}
+                            md={4}
                             xs={12}
                         >
-
                             <FormControlLabel
                                 control={
                                     <Checkbox
                                         onChange={(e) => setValues({
                                             ...values,
-                                            'is_active': e.target.checked
+                                            'isActive': e.target.checked
                                         })}
-                                        name="is_active"
-                                        checked={values.is_active}
+                                        name="isActive"
+                                        checked={values.isActive}
                                         inputProps={{ "aria-label": "primary checkbox" }}
                                     />
                                 }
                                 label="Активный"
                             />
+                        </Grid>
+                        <Grid
+                            item
+                            md={6}
+                            xs={12}
+                        >
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: indigo[500],
+                                }}
+                                onClick={saveHandle}
+                            >
+                                Сохранить
+                            </Button>
                         </Grid>
                     </Grid>
                 </CardContent>

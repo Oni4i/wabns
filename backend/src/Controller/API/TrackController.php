@@ -62,13 +62,13 @@ class TrackController extends AbstractAPIController
     }
 
     /**
-     * @Route("/add", methods={"POST"})
+     * @Route("/add", methods={"POST", "OPTIONS"})
      */
     public function add(Request $request): JsonResponse
     {
         $form = $this->createForm(TrackFormType::class, new TrackRequestDTO());
 
-        $form->submit($request->query->all());
+        $form->submit($request->request->all());
 
         if ($form->isValid()) {
             $track = $this->requestService->getEntityFromDTO($form->getData());
@@ -98,7 +98,7 @@ class TrackController extends AbstractAPIController
     }
 
     /**
-     * @Route("/edit/{id}", methods={"POST"})
+     * @Route("/edit/{id}", methods={"POST", "OPTIONS"})
      */
     public function edit(Request $request, ?Track $track): JsonResponse
     {
@@ -108,7 +108,7 @@ class TrackController extends AbstractAPIController
 
         $form = $this->createForm(TrackFormType::class, $this->requestService->getDTOFromEntity($track));
 
-        $form->submit($request->query->all());
+        $form->submit($request->request->all());
 
         if ($form->isValid()) {
             $track = $this->requestService->getEntityFromDTO($form->getData());
