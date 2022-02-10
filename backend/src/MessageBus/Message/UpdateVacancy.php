@@ -7,18 +7,18 @@ use App\Entity\Track;
 
 class UpdateVacancy
 {
-    private Track $track;
+    private int $trackId;
     private string $alias;
 
     public function __construct(Track $track)
     {
-        $this->track = $track;
+        $this->trackId = $track->getId();
         $this->alias = $track->getWorkService()->getAlias();
     }
 
-    public function getTrack(): Track
+    public function getTrackId(): int
     {
-        return $this->track;
+        return $this->trackId;
     }
 
     public function getAlias(): string

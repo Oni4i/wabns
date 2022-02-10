@@ -217,16 +217,6 @@ class Track implements EntityInterface
     }
 
     /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdateNextStart(): void
-    {
-        if ($this->getLastStart()) {
-            $this->nextStart = new \DateTimeImmutable(\sprintf('+%d %s', $this->getDelayCount(), 'day'));
-        }
-    }
-
-    /**
      * @ORM\PrePersist
      */
     public function prePersistCreatedAt(): void
