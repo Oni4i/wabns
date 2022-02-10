@@ -28,7 +28,7 @@ services:
       - backend_n
 
   frontend:
-    container_name: "wabsn-node"
+    container_name: "wabsn-frontend"
     restart: always
     build:
       context: ./frontend
@@ -39,6 +39,7 @@ services:
       - "3000:3000"
 
   db:
+    container_name: "wabsn-db"
     image: mysql:8.0.19
     restart: always
     environment:
@@ -54,6 +55,7 @@ services:
       - backend_n
 
   redis:
+    container_name: "wabsn-redis"
     image: redis:alpine
     volumes:
       - ./docker/redis:/var/lib/redis
@@ -62,6 +64,22 @@ services:
     command: redis-server --requirepass root
     environment:
       - REDIS_REPLICATION_MODE=master
+    networks:
+      - backend_n
+
+  redis-commander:
+    container_name: "wabsn-redis-commander"
+    image: rediscommander/redis-commander:latest
+    hostname: redis-commander
+    restart: always
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=root
+    ports:
+      - "8082:8081"
+    depends_on:
+      - redis
     networks:
       - backend_n
 
