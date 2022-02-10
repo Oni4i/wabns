@@ -60,11 +60,17 @@ abstract class AbstractRequestWorkService
 
         $results = [];
 
-        while (!$this->getResponseHandler()->isLastPage($request)) {
+        $isLastProcessed = false;
+
+        while (!$this->getResponseHandler()->isLastPage($request) || !$isLastProcessed) {
+            $request = $this->makeRequest($params);
             $results = \array_merge($results, $this->getResponseHandler()->getProcessedData($request));
 
+            if ($this->getResponseHandler()->isLastPage($request)) {
+                $isLastProcessed = true;
+            }
+
             $params = $this->getQuery()->getNextPage($params);
-            $request = $this->makeRequest($params);
         }
 
         return $results;

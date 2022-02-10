@@ -9,9 +9,9 @@ class HeadHunterRequestService extends AbstractRequestWorkService
 {
     public function updateVacancies(Track $track): int
     {
-        $html = $this->makeRequest($track);
+        $vacancies = $this->handleAll($track);
 
-        dd($html);
+        dd($vacancies);
     }
 
     protected function getAlias(): string

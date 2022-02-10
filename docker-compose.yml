@@ -20,6 +20,8 @@ services:
       context: ./backend
     volumes:
       - ./backend:/var/www
+    depends_on:
+      - redis
     ports:
       - "5000:8000"
     networks:
@@ -48,6 +50,18 @@ services:
       - ./docker/mysql:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - backend_n
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - ./docker/redis:/var/lib/redis
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass root
+    environment:
+      - REDIS_REPLICATION_MODE=master
     networks:
       - backend_n
 

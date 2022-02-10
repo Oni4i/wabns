@@ -43,7 +43,7 @@ export const TrackForm = ({services, onSave, ...props}) => {
         setWorkServices(services);
         setValues({
             ...values,
-            workService: services.length ? services[1].id : -1
+            workService: services.length ? services[0].id : -1
         })
     }, [services])
 
