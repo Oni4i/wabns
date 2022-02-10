@@ -36,6 +36,7 @@ services:
             tags: [ 'app.work_response' ]
 
         App\Service\WorkService\AbstractRequestWorkService:
+            tags: [ 'app.work_request' ]
             calls:
                 - setQueryContainer: [!tagged_locator { tag: 'app.work_query', default_index_method: 'getAlias' }]
                 - setClient: [ '@Symfony\Contracts\HttpClient\HttpClientInterface' ]
@@ -51,5 +52,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
+    App\MessageBus\MessageHandler\UpdateVacancyHandler:
+        arguments:
+            $requestLocator: !tagged_locator { tag: 'app.work_request', default_index_method: 'getAlias' }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=TrackOperationRepository::class)
  * @ORM\Table(name="track_operation")
+ * @ORM\HasLifecycleCallbacks
  */
 class TrackOperation implements EntityInterface
 {
@@ -23,7 +24,7 @@ class TrackOperation implements EntityInterface
     private int $id;
 
     /**
-     * @ORM\Column(type="datetime_immutable", name="created_at")
+     * @ORM\Column(type="date", name="created_at")
      */
     private \DateTimeInterface $createdAt;
 
@@ -52,6 +53,14 @@ class TrackOperation implements EntityInterface
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistCreatedAt(): void
+    {
+        $this->setCreatedAt(new \DateTimeImmutable());
     }
 
     /**

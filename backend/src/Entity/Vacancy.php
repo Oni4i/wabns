@@ -26,7 +26,7 @@ class Vacancy implements EntityInterface
     private string $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private string $description;
 
@@ -36,7 +36,7 @@ class Vacancy implements EntityInterface
     private ?int $salary = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TrackOperation::class, inversedBy="vacancies")
+     * @ORM\ManyToOne(targetEntity=TrackOperation::class, inversedBy="vacancies", cascade={"all"})
      * @ORM\JoinColumn(nullable=false)
      */
     private TrackOperation $trackOperation;

@@ -13,4 +13,17 @@ class TrackRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Track::class);
     }
+
+    public function findAllLEForDate(\DateTimeImmutable $dateTimeImmutable): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.nextStart <= :date')
+            ->andWhere('t.isActive = :isActive')
+            ->setParameters([
+                'date' => $dateTimeImmutable->format('Y-m-d'),
+                'isActive' => true
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -5,16 +5,15 @@ namespace App\Service\WorkService;
 
 use App\Entity\Track;
 
+/** Is nessesary request class? */
 class HeadHunterRequestService extends AbstractRequestWorkService
 {
-    public function updateVacancies(Track $track): int
+    public function updateVacancies(Track $track): array
     {
-        $vacancies = $this->handleAll($track);
-
-        dd($vacancies);
+        return $this->handleAll($track);
     }
 
-    protected function getAlias(): string
+    public static function getAlias(): string
     {
         return 'hh';
     }

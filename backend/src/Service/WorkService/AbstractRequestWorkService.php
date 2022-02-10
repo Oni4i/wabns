@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Service\WorkService;
 
 use App\Contract\WorkService\QueryParamsInterface;
+use App\Contract\WorkService\RequestWorkServiceInterface;
 use App\Contract\WorkService\ResponseHandlerServiceInterface;
 use App\Contract\WorkService\WorkQueryInterface;
 use App\Entity\Track;
@@ -11,7 +12,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-abstract class AbstractRequestWorkService
+abstract class AbstractRequestWorkService implements RequestWorkServiceInterface
 {
     private HttpClientInterface $client;
     private ContainerInterface  $queryContainer;
@@ -76,5 +77,5 @@ abstract class AbstractRequestWorkService
         return $results;
     }
 
-    abstract protected function getAlias(): string;
+    abstract public static function getAlias(): string;
 }

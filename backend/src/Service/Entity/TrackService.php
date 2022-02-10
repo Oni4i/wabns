@@ -26,6 +26,11 @@ class TrackService
         return $this->trackRepository->createQueryBuilder('t')->getQuery()->getResult();
     }
 
+    public function findAllForUpdate(): array
+    {
+        return $this->trackRepository->findAllLEForDate(new \DateTimeImmutable());
+    }
+
     public function save(Track $track): void
     {
         $this->entityManager->persist($track);
