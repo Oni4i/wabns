@@ -30,15 +30,22 @@ class UpdateVacancyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Начал собирать отслеживания для обновления...');
+        $output->writeln('Начат сбор отслеживаний для обновления...');
 
         $tracks = $this->trackService->findAllForUpdate();
 
-        $output->writeln(sprintf('Нашёл %s отслеживаний для обновления', count($tracks)));
+        $output->writeln(sprintf('Найдено %d отслеживаний для обновления', count($tracks)));
 
         foreach ($tracks as $track) {
             $this->messageBus->dispatch(new UpdateVacancy($track));
         }
+
+        $output->writeln(sprintf('В очередь добавлено %d отслеживаний', count($tracks)));
+
+        $output->writeln(sprintf(
+            'Для запуска сбора данных вакансий используйте комманду php bin/console messenger:consume async --limit=%d',
+            count($tracks)
+        ));
 
         return Command::SUCCESS;
     }
