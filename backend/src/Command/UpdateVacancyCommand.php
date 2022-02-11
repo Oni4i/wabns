@@ -32,7 +32,7 @@ class UpdateVacancyCommand extends Command
     {
         $output->writeln('Начат сбор отслеживаний для обновления...');
 
-        $tracks = $this->trackService->findAll();
+        $tracks = $this->trackService->findAllForUpdate();
 
         $output->writeln(sprintf('Найдено %d отслеживаний для обновления', count($tracks)));
 
