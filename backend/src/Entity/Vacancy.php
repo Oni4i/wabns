@@ -46,6 +46,11 @@ class Vacancy implements EntityInterface
      */
     private string $company;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $currency;
+
     public function getId(): int
     {
         return $this->id;
@@ -75,12 +80,12 @@ class Vacancy implements EntityInterface
         return $this;
     }
 
-    public function getSalary(): ?string
+    public function getSalary(): ?int
     {
         return $this->salary;
     }
 
-    public function setSalary(?string $salary): self
+    public function setSalary(?int $salary): self
     {
         $this->salary = $salary;
 
@@ -107,6 +112,18 @@ class Vacancy implements EntityInterface
     public function setCompany(string $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?string $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }

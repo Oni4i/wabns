@@ -27,7 +27,8 @@ class VacancyService
                 ->setDescription($vacancy['description'])
                 ->setTitle($vacancy['title'])
                 ->setCompany($vacancy['company'])
-//                ->setSalary($vacancy['salary'])
+                ->setSalary($vacancy['salary'])
+                ->setCurrency($vacancy['currency'])
                 ->setTrackOperation($trackOperation);
 
             $this->entityManager->persist($entity);
