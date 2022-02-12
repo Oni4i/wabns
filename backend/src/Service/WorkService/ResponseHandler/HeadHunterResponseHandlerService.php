@@ -22,7 +22,7 @@ class HeadHunterResponseHandlerService implements ResponseHandlerServiceInterfac
                     'title' => $node->filter('a[data-qa="vacancy-serp__vacancy-title"]')->text(''),
                     'salary' => $salary,
                     'currency' => $currency,
-                    'company' => $node->filter('a[data-qa="vacancy-serp__vacancy-employer"]')->text(''),
+                    'company' => $this->getCompany($node),
                     'description' => $node->filter('div.g-user-content')->text('')
                 ];
             });
@@ -85,6 +85,13 @@ class HeadHunterResponseHandlerService implements ResponseHandlerServiceInterfac
         }
 
         return $currency ?? null;
+    }
+
+    private function getCompany(Crawler $item): string
+    {
+        $companyName = $item->filter('a[data-qa="vacancy-serp__vacancy-employer"]')->text('');
+
+        return preg_replace('/\s/u', ' ', $companyName);
     }
 
     public static function getAlias(): string
