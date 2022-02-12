@@ -23,7 +23,6 @@ class WorkResponseService implements DTOFromEntityGetterInterface
             ->setTitle($entity->getTitle())
             ->setAlias($entity->getAlias())
             ->setDescription($entity->getDescription())
-            ->setService($entity->getService())
             ->setUrl($entity->getUrl());
 
         return $DTO;

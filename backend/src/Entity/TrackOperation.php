@@ -33,6 +33,12 @@ class TrackOperation implements EntityInterface
      */
     private Collection $vacancies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Track::class, inversedBy="trackOperations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Track $track;
+
     public function __construct()
     {
         $this->vacancies = new ArrayCollection();
@@ -69,5 +75,17 @@ class TrackOperation implements EntityInterface
     public function getVacancies(): Collection
     {
         return $this->vacancies;
+    }
+
+    public function getTrack(): ?Track
+    {
+        return $this->track;
+    }
+
+    public function setTrack(?Track $track): self
+    {
+        $this->track = $track;
+
+        return $this;
     }
 }

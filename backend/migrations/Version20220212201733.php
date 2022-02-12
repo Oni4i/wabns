@@ -25,7 +25,7 @@ final class Version20220212201733 extends AbstractMigration
             'hh',
             'HeadHunter',
             '...',
-            'https://hh.ru/search/vacancy?area=113',
+            'https://hh.ru/search/vacancy?area=113&items_on_page=20',
             '...'
         ]);
     }

@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Contract\Entity\EntityInterface;
 use App\Repository\TrackRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -82,6 +84,16 @@ class Track implements EntityInterface
      * @ORM\Column(name="updated_at", type="date", nullable=false)
      */
     private \DateTimeInterface $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TrackOperation::class, mappedBy="track")
+     */
+    private $trackOperations;
+
+    public function __construct()
+    {
+        $this->trackOperations = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -231,5 +243,35 @@ class Track implements EntityInterface
     public function preUpdateUpdatedAt(): void
     {
         $this->setUpdatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @return Collection|TrackOperation[]
+     */
+    public function getTrackOperations(): Collection
+    {
+        return $this->trackOperations;
+    }
+
+    public function addTrackOperation(TrackOperation $trackOperation): self
+    {
+        if (!$this->trackOperations->contains($trackOperation)) {
+            $this->trackOperations[] = $trackOperation;
+            $trackOperation->setTrack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrackOperation(TrackOperation $trackOperation): self
+    {
+        if ($this->trackOperations->removeElement($trackOperation)) {
+            // set the owning side to null (unless already changed)
+            if ($trackOperation->getTrack() === $this) {
+                $trackOperation->setTrack(null);
+            }
+        }
+
+        return $this;
     }
 }

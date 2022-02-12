@@ -1,18 +1,17 @@
 import {DashboardLayout} from "../../components/dashboard-layout";
 import Head from "next/head";
-import {Box, Button, Container, TextField} from "@mui/material";
-import {tracks} from "../../__mocks__/tracks";
-import {useEffect, useMemo, useState} from "react";
+import {Box, Container, TextField} from "@mui/material";
+import {useEffect, useState} from "react";
 import {DotPlot} from "../../components/dashboard/dot-plot";
 import ChartService from "../../api/chart-service";
 import {addDataset, changeLabels, initialChart} from "../../utils/chart-service";
-import {vacancyPlotData as tests} from "../../__mocks__/vacancy-plot-data";
 import {DesktopDatePicker} from "@mui/lab";
-
+import TrackService from "../../api/track-service";
 
 const OneDotPlot = () => {
 
-    const [trackId, setTrackId] = useState(Number(tracks[0].id));
+    const [tracks, setTracks] = useState([]);
+    const [trackId, setTrackId] = useState(-1);
     const [charts, setCharts] = useState({
         vacancyPlotData: initialChart(),
         salaryPlotData: initialChart()
@@ -35,20 +34,21 @@ const OneDotPlot = () => {
     const createDotPlot = async (response, plotKey) => {
         const chart = initialChart();
 
-        if (response.status !== 200 || !Object.keys(response.data).length) return chart;
+        if (response.code === 200) {
+            changeLabels(chart, response.data.labels);
 
-        changeLabels(chart, response.data.labels);
+            addDataset(chart, {
+                label: response.data.dataLabel,
+                data: response.data.data
+            })
 
-        response.data.datasets.forEach((dataset) => {
-            addDataset(chart, dataset);
-        })
-
-        setCharts((items) => {
-            return {
-                ...items,
-                [plotKey]: chart
-            }
-        })
+            setCharts((items) => {
+                return {
+                    ...items,
+                    [plotKey]: chart
+                }
+            })
+        }
     }
 
     const changeDate = (date, name) => {
@@ -61,6 +61,21 @@ const OneDotPlot = () => {
     }
 
     useEffect(() => {
+        const fetchData = async () => {
+            const response = await TrackService.getAll();
+
+            if (response.code === 200) {
+                setTracks(response.data);
+                setTrackId(response.data.length ? response.data[0].id : -1)
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (trackId === -1) return;
+
         const fetchData = async () => {
             await createDotPlot(
                 await ChartService.getVacancyPlotByTrackId(trackId, dates),
@@ -104,7 +119,7 @@ const OneDotPlot = () => {
                                 key={option.id}
                                 value={option.id}
                             >
-                                {option.id}. {option.service_title} - {option.query}
+                                {option.id}. {option.workServiceTitle} - {option.query}
                             </option>
                         ))}
                     </TextField>

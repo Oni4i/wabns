@@ -8,3 +8,23 @@ export const preparePostParams = (data) => {
 
     return formData;
 }
+
+export const prepareGetParams = (data) => {
+    let params = [];
+
+    for (let d in data) {
+        params.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    }
+
+    return params.join('&');
+}
+
+export const prepareDates = (dates) => {
+    const result = {};
+
+    Object.keys(dates).forEach(paramName => {
+        result[paramName] = dates[paramName].toISOString().slice(0,10);
+    })
+
+    return result;
+}

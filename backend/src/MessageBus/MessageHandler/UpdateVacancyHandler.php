@@ -33,7 +33,7 @@ class UpdateVacancyHandler implements MessageHandlerInterface
 
         $vacancies = $this->getRequestService($message->getAlias())->updateVacancies($track);
 
-        $this->vacancyService->saveVacanciesAfterUpdate($vacancies);
+        $this->vacancyService->saveVacanciesAfterUpdate($vacancies, $track);
 
         $this->trackService->updateStart($track);
     }
