@@ -11,12 +11,10 @@ class HeadHunterQuery implements WorkQueryInterface
 {
     public function getParamsByTrack(Track $track): QueryParamsInterface
     {
-        $url = $track->getWorkService()->getUrl();
-
         $query = new QueryParams();
 
         $query
-            ->setUrl($url)
+            ->setUrl($this->generateFinishUrl($track))
             ->setMethod('GET')
             ->setOptions([]);
 
@@ -36,6 +34,30 @@ class HeadHunterQuery implements WorkQueryInterface
         ++$params['page'];
 
         return $queryParams->setUrl(http_build_url($queryParams->getUrl(), ['query' => http_build_query($params)]));
+    }
+
+    private function generateFinishUrl(Track $track): string
+    {
+        $serviceUrl = $track->getWorkService()->getUrl();
+
+        $this->setQuery($serviceUrl, $track->getQuery());
+
+        return $serviceUrl;
+    }
+
+    private function setQuery(string &$url, string $query): void
+    {
+        $params = [];
+
+        $urlQuery = parse_url($url, PHP_URL_QUERY);
+
+        if ($urlQuery) {
+            parse_str($urlQuery, $params);
+        }
+
+        $params['text'] = $query;
+
+        $url = http_build_url($url, ['query' => http_build_query($params)]);
     }
 
     public static function getAlias(): string
