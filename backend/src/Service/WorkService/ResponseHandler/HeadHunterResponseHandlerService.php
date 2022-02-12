@@ -84,6 +84,10 @@ class HeadHunterResponseHandlerService implements ResponseHandlerServiceInterfac
             }
         }
 
+        if ($currency === 'руб.') {
+            $currency = 'RUB';
+        }
+
         return $currency ?? null;
     }
 
