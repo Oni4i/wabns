@@ -23,7 +23,9 @@ export const prepareDates = (dates) => {
     const result = {};
 
     Object.keys(dates).forEach(paramName => {
-        result[paramName] = dates[paramName].toISOString().slice(0,10);
+        result[paramName] = new Date(dates[paramName]).
+        toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+        replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
     })
 
     return result;

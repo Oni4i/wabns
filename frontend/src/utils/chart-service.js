@@ -12,13 +12,14 @@ export const addLabel = (chart, label) => {
 }
 
 export const addDataset = (chart, dataset) => {
-    const {label, data, borderColor, backgroundColor} = dataset;
+    const {label, data, borderColor, backgroundColor, ...others} = dataset;
 
     const addedDataset = Object.assign(dataset, {
         label: label ?? '',
         data: data ?? [],
         borderColor: borderColor ?? 'rgb(255, 99, 132)',
         backgroundColor: backgroundColor ?? 'rgba(255, 255, 255)',
+        ...others
     });
 
     chart.datasets = chart.datasets.length ? [...chart.datasets, addedDataset] : [addedDataset];

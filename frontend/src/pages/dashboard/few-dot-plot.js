@@ -39,28 +39,24 @@ const FewDotPlot = () => {
         to: new Date()
     })
 
-    const updateTracks = async () => {
-        const response = await TrackService.getAll();
-
-        if (response.code === 200) {
-            setTracks(response.data);
-            setSelectedTrack(response.data.length ? response.data[0].id : -1)
-        }
-    }
-
     const addChart = async (trackId) => {
         const response = await ChartService.getVacancyPlotByTrackId(trackId, dates);
 
-        if (response.status !== 200 || response.data.length === 0) return;
-
         const chart = Object.assign({}, charts);
-        changeLabels(chart, response.data.labels)
 
-        response.data.datasets.forEach((dataset) => {
-            addDataset(chart, Object.assign(dataset, {trackId}));
-        })
+        if (response.code === 200) {
+            changeLabels(chart, response.data.labels);
 
-        setCharts(chart);
+            const track = tracks.filter(track => track.id === trackId)[0];
+
+            addDataset(chart, {
+                label: `${track.workServiceTitle} - ${track.query}`,
+                data: response.data.data,
+                trackId: trackId
+            })
+
+            setCharts(chart);
+        }
     }
 
     const removeChart = async (trackId) => {
@@ -110,13 +106,26 @@ const FewDotPlot = () => {
     }
 
     useEffect(() => {
-        updateTracks();
+        const fetchData = async () => {
+            const response = await TrackService.getAll();
+
+            if (response.code === 200) {
+                setTracks(response.data);
+                setSelectedTrack(response.data.length ? response.data[0].id : -1)
+            }
+        }
+
+        fetchData();
     }, []);
 
     useEffect(() => {
-        selectedTracks.forEach((trackId) => {
-            addChart(trackId);
-        });
+        const updateChart = async () => {
+            selectedTracks.forEach((trackId) => {
+                addChart(trackId);
+            });
+        }
+
+        updateChart();
     }, [dates])
 
     return (
@@ -160,7 +169,7 @@ const FewDotPlot = () => {
                                                 key={option.id}
                                                 value={option.id}
                                             >
-                                                {option.id}. {option.service_title} - {option.query}
+                                                {option.id}. {option.workServiceTitle} - {option.query}
                                             </option>
                                         ))}
                                     </TextField>
@@ -217,7 +226,7 @@ const FewDotPlot = () => {
                                                 <ListItemText
                                                     primary={(
                                                         <Typography>
-                                                            {track.id}. {track.service_title} - {track.query}
+                                                            {track.id}. {track.workServiceTitle} - {track.query}
                                                         </Typography>
                                                     )}
                                                 />
@@ -232,6 +241,7 @@ const FewDotPlot = () => {
                         <DesktopDatePicker
                             label="От"
                             inputFormat="yyyy-MM-dd"
+                            mask="____-__-__"
                             onChange={(e) => changeDate(e, 'from')}
                             value={dates.from}
                             renderInput={(params) => <TextField {...params} />}
@@ -239,11 +249,17 @@ const FewDotPlot = () => {
                         <DesktopDatePicker
                             label="До"
                             inputFormat="yyyy-MM-dd"
+                            mask="____-__-__"
                             onChange={(e) => changeDate(e, 'to')}
                             value={dates.to}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                        <DotPlot {...charts} title="График количества вакансий"/>
+                        <DotPlot
+                            key={Math.random()}
+                            labels={charts.labels}
+                            datasets={charts.datasets}
+                            title="График количества вакансий"
+                        />
                     </Box>
                 </Container>
             </Box>

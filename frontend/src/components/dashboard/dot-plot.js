@@ -29,9 +29,11 @@ export const DotPlot = ({labels, datasets, title, ...props}) => {
     });
 
     useEffect(() => {
-        setChartData({
-            labels,
-            datasets
+        setChartData(() => {
+            return {
+                labels,
+                datasets
+            }
         });
     }, [labels, datasets])
 
