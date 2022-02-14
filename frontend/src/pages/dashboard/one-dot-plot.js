@@ -8,6 +8,13 @@ import {addDataset, changeLabels, initialChart} from "../../utils/chart-service"
 import {DesktopDatePicker} from "@mui/lab";
 import TrackService from "../../api/track-service";
 
+const dotColors = [
+    'rgb(255, 99, 132)',
+    'rgb(53, 162, 235)',
+    'rgb(36, 36, 36)',
+    'rgb(154,22,219)'
+];
+
 const OneDotPlot = () => {
 
     const [tracks, setTracks] = useState([]);
@@ -37,9 +44,21 @@ const OneDotPlot = () => {
         if (response.code === 200) {
             changeLabels(chart, response.data.labels);
 
-            addDataset(chart, {
-                label: response.data.dataLabel,
+            let data = [{
+                dataLabel: response.data.dataLabel,
                 data: response.data.data
+            }];
+
+            if (response.data.salaries) {
+                data = response.data.salaries
+            }
+
+            data.forEach((item, index) => {
+                addDataset(chart, {
+                    label: item.dataLabel,
+                    data: item.data,
+                    borderColor: dotColors[index]
+                })
             })
 
             setCharts((items) => {
@@ -128,12 +147,14 @@ const OneDotPlot = () => {
                             label="От"
                             inputFormat="yyyy-MM-dd"
                             onChange={(e) => changeDate(e, 'from')}
+                            mask="____-__-__"
                             value={dates.from}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
                             label="До"
                             inputFormat="yyyy-MM-dd"
+                            mask="____-__-__"
                             onChange={(e) => changeDate(e, 'to')}
                             value={dates.to}
                             renderInput={(params) => <TextField {...params} />}

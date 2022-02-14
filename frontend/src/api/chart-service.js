@@ -14,10 +14,12 @@ export default class ChartService {
     }
 
     static async getSalaryPlotByTrackId(trackId, dates) {
-        return {
-            status: 404,
-            data: salaryPlotData.find(item => item.trackId === trackId)
-        }
+        dates = prepareDates(dates);
+
+        const data = prepareGetParams(dates);
+        const response = await axios.get('http://localhost:8081/api/chart/salary-plot/' + trackId + '?' + data);
+
+        return response.data;
     }
 
     static async getDepartmentPieChartByTrackId() {

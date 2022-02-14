@@ -58,4 +58,19 @@ class VacancyService
             $dateTo?->format('Y-m-d')
         );
     }
+
+    public function findAllForSalaryCalculation(
+        int $trackId,
+        string $currency,
+        ?\DateTimeImmutable $dateFrom,
+        ?\DateTimeImmutable $dateTo
+    ): array
+    {
+        return $this->vacancyRepository->findAllForSalary(
+            $trackId,
+            $currency,
+            $dateFrom?->format('Y-m-d'),
+            $dateTo?->format('Y-m-d')
+        );
+    }
 }
