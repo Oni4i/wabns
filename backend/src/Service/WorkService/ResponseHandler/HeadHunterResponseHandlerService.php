@@ -61,7 +61,7 @@ class HeadHunterResponseHandlerService implements ResponseHandlerServiceInterfac
         $salary = (int) $salaryRange[0];
 
         if (count($salaryRange) === 2) {
-            $salary = ($salary + (int) $salaryRange[1]) / 2;
+            $salary = (int) floor(($salary + (int) $salaryRange[1]) / 2);
         }
 
         return [
