@@ -27,6 +27,11 @@ export const addDataset = (chart, dataset) => {
     return chart;
 }
 
+export const updateDataset = (chart, dataset, filterCallback) => {
+    removeDataset(chart, filterCallback);
+    addDataset(chart, dataset);
+}
+
 export const removeDataset = (chart, filterCallback) => {
     chart.datasets = chart.datasets.filter(filterCallback);
 

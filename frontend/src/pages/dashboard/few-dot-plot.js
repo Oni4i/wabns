@@ -18,7 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TrackService from "../../api/track-service";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { indigo } from '@mui/material/colors';
-import {addDataset, changeLabels, initialChart, removeDataset} from "../../utils/chart-service";
+import {changeLabels, initialChart, removeDataset, updateDataset} from "../../utils/chart-service";
 import ChartService from "../../api/chart-service";
 import {DesktopDatePicker} from "@mui/lab";
 
@@ -42,20 +42,31 @@ const FewDotPlot = () => {
     const addChart = async (trackId) => {
         const response = await ChartService.getVacancyPlotByTrackId(trackId, dates);
 
-        const chart = Object.assign({}, charts);
 
         if (response.code === 200) {
-            changeLabels(chart, response.data.labels);
 
-            const track = tracks.filter(track => track.id === trackId)[0];
 
-            addDataset(chart, {
-                label: `${track.workServiceTitle} - ${track.query}`,
-                data: response.data.data,
-                trackId: trackId
+            setCharts((prev) => {
+                const chart = Object.assign({}, prev);
+
+                changeLabels(chart, response.data.labels);
+
+                const track = tracks.filter(track => track.id === trackId)[0];
+
+                updateDataset(
+                    chart,
+                    {
+                        label: `${track.workServiceTitle} - ${track.query}`,
+                        data: response.data.data,
+                        trackId: trackId
+                    },
+                    (item) => {
+                        return item.trackId !== trackId;
+                    }
+                )
+
+                return chart;
             })
-
-            setCharts(chart);
         }
     }
 
@@ -120,13 +131,14 @@ const FewDotPlot = () => {
 
     useEffect(() => {
         const updateChart = async () => {
-            selectedTracks.forEach((trackId) => {
-                addChart(trackId);
-            });
+            for (const trackId of selectedTracks) {
+                await addChart(trackId);
+            }
         }
 
         updateChart();
     }, [dates])
+
 
     return (
         <>
