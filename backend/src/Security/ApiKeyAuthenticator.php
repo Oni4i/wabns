@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Security;
 
 use App\Contract\Response\APIResponseServiceInterface;
-use App\Repository\UserRepository;
 use App\Service\Entity\ProtectedControllerService;
 use App\Service\Entity\UserService;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,13 +44,13 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
         $apiToken = $request->headers->get('X-AUTH-TOKEN');
 
         if (null === $apiToken) {
-            throw new CustomUserMessageAuthenticationException('No API token provided');
+            throw new CustomUserMessageAuthenticationException('Токен не может быть пустым');
         }
 
         $user = $this->userService->findUserByToken($apiToken);
 
         if (null === $user) {
-            throw new BadCredentialsException('Invalid credentials');
+            throw new BadCredentialsException('Неверный токен');
         }
 
         return new SelfValidatingPassport(
