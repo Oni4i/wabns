@@ -39,6 +39,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EntityI
      */
     private string $password;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private string $apiToken;
+
     public function getId(): int
     {
         return $this->id;
@@ -90,4 +95,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EntityI
     }
 
     public function eraseCredentials() {}
+
+    public function getApiKey(): string
+    {
+        return $this->getEmail();
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
+
+        return $this;
+    }
 }

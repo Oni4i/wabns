@@ -4,11 +4,14 @@ declare(strict_types = 1);
 namespace App\Security;
 
 use App\Contract\Response\APIResponseServiceInterface;
+use App\Repository\UserRepository;
 use App\Service\Entity\ProtectedControllerService;
+use App\Service\Entity\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -18,19 +21,21 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class ApiKeyAuthenticator extends AbstractAuthenticator
 {
     private APIResponseServiceInterface $responseService;
-
     private ProtectedControllerService  $protectedControllerService;
+    private UserService                 $userService;
 
     public function __construct(
         APIResponseServiceInterface $responseService,
-        ProtectedControllerService $protectedControllerService
+        ProtectedControllerService $protectedControllerService,
+        UserService $userService
     )
     {
         $this->responseService = $responseService;
         $this->protectedControllerService = $protectedControllerService;
+        $this->userService = $userService;
     }
 
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return $this->protectedControllerService->isControllerProtected($request);
     }
@@ -43,7 +48,15 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
             throw new CustomUserMessageAuthenticationException('No API token provided');
         }
 
-        return new SelfValidatingPassport(new UserBadge($apiToken));
+        $user = $this->userService->findUserByToken($apiToken);
+
+        if (null === $user) {
+            throw new BadCredentialsException('Invalid credentials');
+        }
+
+        return new SelfValidatingPassport(
+            new UserBadge($user->getEmail())
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

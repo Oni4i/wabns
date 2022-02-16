@@ -35,6 +35,7 @@ class RegistrationController extends AbstractAPIController
     {
         $form = $this->createForm(RegisterUserFormType::class, new UserRequestDTO());
 
+        dd($this->getUser());
         $form->submit($request->request->all());
 
         if ($form->isValid()) {
