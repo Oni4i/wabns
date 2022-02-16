@@ -148,6 +148,7 @@ class SalaryPlotService extends AbstractChartService
 
             if ($length % 2 === 0) {
                 $sum += $value[$index + 1];
+                $sum /= 2;
             }
 
             $result[$key] = $sum;
