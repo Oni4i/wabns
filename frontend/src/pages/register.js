@@ -64,7 +64,7 @@ const Register = () => {
     <>
       <Head>
         <title>
-          Register | Material Kit
+          Регистрация
         </title>
       </Head>
       <Box
@@ -77,62 +77,44 @@ const Register = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink
-            href="/"
-            passHref
-          >
-            <Button
-              component="a"
-              startIcon={<ArrowBackIcon fontSize="small" />}
-            >
-              Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography
                 color="textPrimary"
                 variant="h4"
               >
-                Create a new account
-              </Typography>
-              <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="body2"
-              >
-                Use your email to create a new account
+                Создать новый аккаунт
               </Typography>
             </Box>
-            <TextField
-              error={Boolean(formik.touched.firstName && formik.errors.firstName)}
-              fullWidth
-              helperText={formik.touched.firstName && formik.errors.firstName}
-              label="First Name"
-              margin="normal"
-              name="firstName"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.firstName}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.lastName && formik.errors.lastName)}
-              fullWidth
-              helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Last Name"
-              margin="normal"
-              name="lastName"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.lastName}
-              variant="outlined"
-            />
+            {/*<TextField*/}
+            {/*  error={Boolean(formik.touched.firstName && formik.errors.firstName)}*/}
+            {/*  fullWidth*/}
+            {/*  helperText={formik.touched.firstName && formik.errors.firstName}*/}
+            {/*  label="First Name"*/}
+            {/*  margin="normal"*/}
+            {/*  name="firstName"*/}
+            {/*  onBlur={formik.handleBlur}*/}
+            {/*  onChange={formik.handleChange}*/}
+            {/*  value={formik.values.firstName}*/}
+            {/*  variant="outlined"*/}
+            {/*/>*/}
+            {/*<TextField*/}
+            {/*  error={Boolean(formik.touched.lastName && formik.errors.lastName)}*/}
+            {/*  fullWidth*/}
+            {/*  helperText={formik.touched.lastName && formik.errors.lastName}*/}
+            {/*  label="Last Name"*/}
+            {/*  margin="normal"*/}
+            {/*  name="lastName"*/}
+            {/*  onBlur={formik.handleBlur}*/}
+            {/*  onChange={formik.handleChange}*/}
+            {/*  value={formik.values.lastName}*/}
+            {/*  variant="outlined"*/}
+            {/*/>*/}
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
+              label="Почта"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
@@ -145,7 +127,7 @@ const Register = () => {
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
-              label="Password"
+              label="Пароль"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
@@ -170,7 +152,7 @@ const Register = () => {
                 color="textSecondary"
                 variant="body2"
               >
-                I have read the
+                Я прочёл
                 {' '}
                 <NextLink
                   href="#"
@@ -181,7 +163,7 @@ const Register = () => {
                     underline="always"
                     variant="subtitle2"
                   >
-                    Terms and Conditions
+                    Условия пользования
                   </Link>
                 </NextLink>
               </Typography>
@@ -200,14 +182,14 @@ const Register = () => {
                 type="submit"
                 variant="contained"
               >
-                Sign Up Now
+                Регистрация
               </Button>
             </Box>
             <Typography
               color="textSecondary"
               variant="body2"
             >
-              Have an account?
+              Есть аккаунт?
               {' '}
               <NextLink
                 href="/login"
@@ -217,7 +199,7 @@ const Register = () => {
                   variant="subtitle2"
                   underline="hover"
                 >
-                  Sign In
+                  Авторизация
                 </Link>
               </NextLink>
             </Typography>
