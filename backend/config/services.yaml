@@ -52,11 +52,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
-    App\EventListener\OnKernelRequest\CSRFParameterListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
-
-
     App\MessageBus\MessageHandler\UpdateVacancyHandler:
         arguments:
             $requestLocator: !tagged_locator { tag: 'app.work_request', default_index_method: 'getAlias' }

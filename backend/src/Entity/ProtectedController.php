@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Entity;
 
@@ -15,24 +16,24 @@ class ProtectedController
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $classname;
+    private string $classname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private string $title;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getClassname(): ?string
+    public function getClassname(): string
     {
         return $this->classname;
     }
@@ -44,7 +45,7 @@ class ProtectedController
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
