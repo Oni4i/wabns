@@ -5,8 +5,6 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {Box, Button, Container, Link, TextField, Typography} from '@mui/material';
 import useAuth from "../hooks/useAuth";
-import {DashboardLayout} from "../components/dashboard-layout";
-import Instruction from "./instruction";
 
 const Login = () => {
     const router = useRouter();
@@ -123,11 +121,5 @@ const Login = () => {
         </>
     );
 };
-
-Login.getLayout = (page) => (
-    <DashboardLayout>
-        {page}
-    </DashboardLayout>
-);
 
 export default Login;
